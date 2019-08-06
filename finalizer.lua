@@ -25,6 +25,7 @@ if strDistId=='windows' then
   t:install('src/windows/muhkuh_cli_init.lua', '${install_base}/')
 elseif strDistId=='ubuntu' then
   t:install('src/linux/muhkuh_cli_init.lua', '${install_base}/')
+  t:install('src/linux/eth_detect',          '${install_base}/')
 end
 
 
