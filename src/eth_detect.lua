@@ -154,19 +154,17 @@ local function on_read(tSocket, err, strData, flags, strHost, usPort)
           end
 
         else
-          print('Invlid packet')
+          print('Invalid packet')
         end
       end
     end
   else
-    print('Invlaid port: ' .. usPort)
+    print('Invalid port: ' .. usPort)
   end
 end
 
 
 local function onScanTimer(tTimer, tSocket)
-  print('Timer...')
-
   -- Remove all devices which are still undetected.
   for strIp, tAttr in pairs(atDetectedNetx) do
     if tAttr.fIsStillThere==false then
