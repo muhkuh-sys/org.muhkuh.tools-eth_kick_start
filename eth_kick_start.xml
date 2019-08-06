@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jonchki-artifact version="1.0">
+	<info group="org.muhkuh.tools"
+	      module="eth_kick_start"
+	      artifact="eth_kick_start_netx4000"
+	      version="0.0.1"
+	      vcs-id="${PROJECT_VERSION_VCS}"
+	      extension="tar.gz">
+		<license name="GPLV2"/>
+		<author name="Christoph Thelen" url="https://www.hilscher.com/" />
+		<description>
+			Activate the Ethernet TFTP boot on a netX 4000 via Ethernet.
+		</description>
+	</info>
+	<dependencies>
+		<dependency group="com.github.moteus" module="lua-lluv" artifact="lua5.4-lua-lluv" version="0.1" />
+	</dependencies>
+</jonchki-artifact>
