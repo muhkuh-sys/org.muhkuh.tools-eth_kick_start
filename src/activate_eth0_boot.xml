@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<HBootImage type="INTRAM">
+	<Chunks>
+		<Options>
+			<!-- Set the boot devices. -->
+			<Option id="bootdev">
+				<U08>
+					BOOTDEV_ETH_INTPHY0,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE,
+					BOOTDEV_NONE
+				</U08>
+			</Option>
+		</Options>
+
+		<!-- call a "bx lr" to unlock JTAG. -->
+		<Execute>
+			<Address>0x041120bd</Address>
+		</Execute>
+	</Chunks>
+</HBootImage>
