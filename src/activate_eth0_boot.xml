@@ -15,6 +15,9 @@
 					BOOTDEV_NONE
 				</U08>
 			</Option>
+			<Option id="ethernet_mac">
+				<U08>0x00, 0x02, 0xa2, 0x20, 0x21, 0x00</U08>
+			</Option>
 		</Options>
 
 		<!-- call a "bx lr" to unlock JTAG. -->

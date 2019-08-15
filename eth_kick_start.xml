@@ -14,5 +14,6 @@
 	</info>
 	<dependencies>
 		<dependency group="com.github.moteus" module="lua-lluv" artifact="lua5.4-lua-lluv" version="0.1" />
+		<dependency group="org.muhkuh.lua" module="mhash" artifact="lua5.4-mhash" version="0.9.9.9" />
 	</dependencies>
 </jonchki-artifact>

@@ -1,4 +1,5 @@
 require 'muhkuh_cli_init'
+local mhash = require 'mhash'
 local uv = require 'lluv'
 
 local strRomloaderMagic = string.char(0x00, 0x4d, 0x4f, 0x4f, 0x48, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04)
@@ -17,6 +18,23 @@ local sizBootImage = string.len(strBootImage)
 local sizBootImageLo = sizBootImage & 0x00ff
 local sizBootImageHi = (sizBootImage & 0xff00) >> 8
 
+local function patchBootImage(ucMacLsb)
+  -- Extract the options without the last MAC byte and without the hash.
+  local strOpt = string.sub(strBootImage, 0x41, 0x57)
+
+  -- Append the new MAC LSB.
+  strOpt = strOpt .. string.char(ucMacLsb)
+
+  -- Generate the new SHA384 sum.
+  local mh = mhash.mhash_state()
+  mh:init(mhash.MHASH_SHA384)
+  mh:hash(strOpt)
+  local strHash = mh:hash_end()
+
+  -- Build a new hboot image.
+  local strImg = string.sub(strBootImage, 1, 0x40) .. strOpt .. string.sub(strHash, 1, 4) .. string.sub(strBootImage, 0x5d)
+  return strImg
+end
 
 local BOOTSTATE_ReadId0 = 0
 local BOOTSTATE_ReadId1 = 1
@@ -26,6 +44,7 @@ local BOOTSTATE_Finished = 4
 local BOOTSTATE_Error   = -1
 
 local atDetectedNetx = {}
+local ucMacLsb = 0x00
 
 local function on_write(cli, err)
   if err then
@@ -128,8 +147,16 @@ local function on_read(tSocket, err, strData, flags, strHost, usPort)
             -- Get the response.
             local ulData = getData32(strData, 2)
             if ulData==0xe0000010 then
+              print(string.format('Generating new bootimage with MAC LSB 0x%02x.', ucMacLsb))
+              -- Patch the new MAC LSB into the boot image.
+              local strPatchedImage = patchBootImage(ucMacLsb)
+              -- Increase the current MAC LSB to get a new one for the next board.
+              ucMacLsb = ucMacLsb + 1
+              if ucMacLsb>255 then
+                ucMacLsb = 0x00
+              end
               tAttr.tState = BOOTSTATE_WriteData
-              local strPacket = string.char(0x01, sizBootImageLo, sizBootImageHi, 0x00, 0x00, 0x10, 0x05) .. strBootImage
+              local strPacket = string.char(0x01, sizBootImageLo, sizBootImageHi, 0x00, 0x00, 0x10, 0x05) .. strPatchedImage
               tSocket:send(strHost, 53280, strPacket)
             else
               print(string.format('Unknown ID2: 0x%08x\n', ulData))
