@@ -12,8 +12,7 @@ local atCopy = {
   ['targets/activate_eth0_boot.img']  = '${install_base}/',
   ['src/eth_detect.lua']              = '${install_base}/',
 
-  ['${report_path}']                  = '${install_base}/.jonchki/',
-  ['${report_xslt}']                  = '${install_base}/.jonchki/'
+  ['${report_path}']                  = '${install_base}/.jonchki/'
 }
 for strSrc, strDst in pairs(atCopy) do
   t:install(strSrc, strDst)
