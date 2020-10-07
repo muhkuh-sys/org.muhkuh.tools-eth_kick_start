@@ -89,4 +89,4 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: artifacts_${{ matrix.platform.distribution-id }}_${{ matrix.platform.distribution-version }}_${{ matrix.platform.cpu-architecture }}
-        path: targets/eth_kick_start_*
+        path: targets/repository

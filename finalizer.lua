@@ -62,7 +62,9 @@ else
   if strDistVersion=='' then
     strDV = ''
   end
-  local strArchive = t:replace_template(string.format('${install_base}/../../../%s-%s%s_%s.%s', strArtifactVersion, strDistId, strDV, strCpuArch, strArchiveExtension))
+  local strArchivePath = t:replace_template(string.format('${install_base}/../../../repository/org/muhkuh/tools/eth_kick_start'))
+  pl.dir.makepath(strArchivePath)
+  local strArchive = string.format('%s/%s-%s%s_%s.%s', strArchivePath, strArtifactVersion, strDistId, strDV, strCpuArch, strArchiveExtension)
   local strDiskPath = t:replace_template('${install_base}')
   local strArchiveMemberPrefix = strArtifactVersion
 
