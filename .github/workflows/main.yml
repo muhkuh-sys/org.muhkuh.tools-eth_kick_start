@@ -81,7 +81,9 @@ jobs:
       uses: actions/checkout@v1
       with:
         submodules: recursive
-    - name: Build
+    - name: Build Image
+      run: python2.7 mbs/mbs
+    - name: Build Artifact
       run: ./build_artifact.py ${{ matrix.platform.distribution-id }} ${{ matrix.platform.distribution-version }} ${{ matrix.platform.cpu-architecture }}
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
